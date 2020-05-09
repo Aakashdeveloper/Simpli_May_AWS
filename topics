@@ -1,0 +1,34 @@
+Ec2
+LightSail
+Lambda(Basic)
+Elastic BeanStalk
+S3
+EFS
+S3 Glacier
+RDS
+DynamoDB
+ElasticCache
+RedShift
+DMS
+SnowBall
+VPC
+CloudFront
+Route53
+Api Gateway
+Code Commit
+Code build
+Code Deploy
+Code Pipeline
+Cloud Watch
+Cloud Formation
+Cloud Trail
+OpsWorks(Basic)
+TrustAdvisor
+Kinesis(basic)
+IAM
+ACM
+KMS
+SQS
+SNS
+SES
+ECS(Basic)

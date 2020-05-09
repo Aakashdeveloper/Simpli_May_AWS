@@ -1,0 +1,25 @@
+Cloud
+OnPrem
+
+99.00 (SLA)
+
+DR=> Disaster Recovery
+RTO => Recovery Time Objective
+RPO => Recovery Point Objective
+
+IAAS > Infra as a service > Ec2
+PAAS > Platform as a service >ElasticBean Stack
+SAAS > Software as a service > SNS
+
+OnPremise > Our own setup
+Cloud > AWS,GCP,AZURE
+Hybrid > OnPrem+cloud
+Multicloud > GCP + AWS + On Prem
+
+//////////////
+AWS
+///////
+
+> Region   > Physical location country vise or city visee
+> It is possible in one country we have more than one region
+> Availabilty Zonee
