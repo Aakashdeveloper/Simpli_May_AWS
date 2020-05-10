@@ -1,0 +1,181 @@
+component of IAM
+> Users => 
+Each person can be one User Id       
+Each user can have different permissions
+
+> Group
+We can club multiple user and provide common acces   
+
+> Roles
+Roles are not for users
+Roles are for service
+Ec2 => S3, RDS
+
+> Policies
+
+
+Development
+
+UserA   UserB  UserC
+IAM     S3     RDS
+S3     RDS     S3
+RDS
+
+
+Group Developer (S3,RDS)
+UserA (IAM)
+UserB
+UserC
+
+
+Policies
+IAM> Create Group, Create user, create Roles
+RDS> Read, write  
+
+
+MyPolicy
+IAM> Create Group
+RDS> Read acces
+
+JSON
+{
+    "name":"a",
+    "class":"b"
+}
+
+/*********************
+    Check All Policy
+***********************/
+> AWS Dashboard
+    > IAM
+      >Policies
+        >List All Policy
+
+/*********************
+    Create Cutsome Policy
+***********************/
+> Policies
+    > create Policy
+        > choose service
+            > Select the actions
+                > Review Policy
+                    >Provide policy name
+                        >Create policy
+
+/*******************************
+    Create New IAM USer
+*********************************/
+> user
+    >Create user
+        >Name , Accesstypee
+            >custome password
+                >Attach existing Policies
+                    >select policy
+                        >Add Tags
+                            >Review and create
+
+/*******************************
+    Login with IAM user
+*********************************/
+> Select User
+    > security credential
+        >use summery console login  url:
+
+
+/*******************************
+   Asign MFA
+*********************************/
+> Select user
+    >security credential
+        > Assign MFA 
+            >Virtual MFA
+                > Show QR
+                    > Scan Qr and enter code
+
+/**************************
+   Add uSer to group
+**************************/
+=>Select group
+    =>user
+        =>Add User
+            =>Select Listed User
+                =>Add
+
+Roles are for the applications
+Groups for the user
+
+/**************************
+   Create Role
+**************************/
+=> Role
+    =>Create Role
+    `=> Aws Service
+        => Select service to which yo want to attach policy
+            => Add Permission to the Service
+                =>Add tags and Create
+
+** We can attach role to service on there own dashboard
+
+/******************************************
+  Access resource from diff account
+******************************************/
+Acc1 (Aakash Handa)  Sender
+=>IAM
+    =>Role
+        =>Another AWS account
+            =>Account ID(of aakash)
+                =>Add permission(s3 full access)
+                    =>RoleName
+
+
+
+** Root User(aakash) cannot access resource of another Account
+** IAM of reciver(aakash) can access resource of another Account
+
+Acc2 (Aakash)  Reciver
+** Access S3 of aakashhanda account
+=>  Create new IAM user(with no permission no group)
+    
+ => Create new dummyGroup(no user no policy)   
+    =>Select create group
+        =>Permission
+            =>Add Inline Policies
+            =>Json
+                =>Create policy
+                    =>Write JSon
+                    {
+                        "Version":"2012-10-17",
+                        "Statement":{
+                            "Effect":"Allow",
+                            "Action":"sts:AssumeRole",
+                            "Resource":"arn:aws:iam::276374296137:role/S3extrenalAcess"
+                                        (ARN of role created in sender account)
+                        }
+                    }
+                    => Attach user to group
+
+=> Login with IAM user
+    =>Swtich role
+    =>Account* (number od aakashhanda(sender) account)
+       Role* (created in aakash handa account)
+       =>Switch Role
+
+
+/////////
+User
+Group
+Role
+Policies => Already defined
+
+JSon
+>JavaScript Object notation
+[
+    {
+        name:"aaa",
+        class:"React"
+    },
+    {
+        name:"bbbb",
+        class:"AWS"
+    }
+]
