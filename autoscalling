@@ -1,0 +1,60 @@
+/**************************
+    Auto scale
+**************************/
+Scale in and scale out
+
+=> Launch Configure = Instance Type, AMI, SG, Storage
+=> Scaling Policy   = Scale In and scale out
+
+connect ec2=>
+bash 
+=> stress
+=> remove stress
+
+prequest
+==> You must have one AMI
+=>Step
+    => create auto scale group
+        => Select AMI
+            =>Configuration Detail
+                name                    
+                myautoscale
+                =>Advanced Details
+                    =>User data
+                        Add bootstrap
+                        "#!/bin/bash
+                        sudo yum install stress -y
+                        "
+                        =>Create Launch Configuration
+                            Add http
+                                =>Create Auto Scaling Group
+                                    =>Groupname
+                                    =>Number of instance =1
+                                        => Select alteast 3 subnet
+                                            =>check Load Balancing
+                                                =>Add loadBlacancer
+=>Use scaling policies to adjust the capacity of this group
+    =>Scale the Auto Scaling group using step or simple scaling policies
+        =>Add Alarm (for both scaleup and scale down)
+            =>whenever=>CPu
+            =>is lessthan or greater = provide %
+                =>Add Tags
+
+/**************************
+   Strees Testing ******HW
+**************************/
+=> Connect with launched Ec2
+    =>Open terminal
+        =>type "stress"
+        =>type "remove stress"
+
+launch AS group every machine must have stree package 
+after it add undeer load balancer
+=> Connect with launched Ec2
+    =>Open terminal
+        =>type "stress"
+        check new machine got added or not
+        =>type "remove stress"
+        check  machine got removed  or not
+
+

@@ -1,0 +1,228 @@
+IAAS
+core/ foundational service
+70% app running on ec2
+VM 
+Regional Service
+Had to launched in VPC
+=> Free tire limit  t2.micro 750hrs
+=> Configuration
+=> Instance are =CPU, Storage, Memory, Network
+=> AMI => OS, Custome AMI
+
+Xen
+=> Virtualization type: hvm  | Para
+Hardware vitural machine  |   Para
+Fast                            Slow
+New
+support more hardwar              Old
+
+=> Root Device 
+EBS volume, ISVolume
+
+EBS volume
+=> Similar to hard disk
+=> Presistent in nature
+=> Upto 30GB is Free
+=> EBS HDD & SDD(solid state disk)
+=> AMI backuped by EBS volume
+=> Stop, Run, Terminate & reboot
+
+Instance Store volume (epnemeral volume)
+=> Similar to RAM
+=> Volatile in nature
+=> Running, Terminate
+
+Amazone => EBS+ HVM
+
+ENA=> Network connectors
+
+Hypervisior mange the resources
+
+
+/************************
+    Purchasing option
+*************************/
+On Demand Instance => Pay as yo go(/hr)
+Reserved Instance  => For long term  (upto 75% for total)
+                     > 1 yr to 3 yrs
+                     > All upfront, Partial upfront, No upfront
+
+Spot Instance      => Binding or auction
+                   => 2 min and terminate my instance
+                   => 90% cost benift
+                   => Interruption can happen on biding price
+                   => Testing , learning or 
+                   => Duration(1hr to 6 hr)
+
+/************************
+    Tenancy
+*************************/
+
+Shared              => Multiple VM on same physical device
+Dedicate instance   => Instance storage is Presistent and remain as backup
+Dedicate Host        => Dedicated physical Machine for my VM
+
+
+
+/************************
+    Use linux as web server
+*************************/
+=> sudo su -
+=> yum install httpd -y
+=> cd /var/www/html
+=> vi index.html
+=> <h1>Hi welcome</h1>
+=> press Ecs
+=> :wq!
+=> chmod 755 index.html
+=> service httpd start
+=> chkconfig httpd on
+=> publicip/ index.html
+
+<div style="background-color:red">
+        <h1>Linux Machine</h1>
+</div>
+
+//node > 
+https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-up-node-on-ec2-instance.html
+
+/************************
+    Use Windows  as web server
+*************************/
+=> Install IIS
+=> Install-WindowsFeature -name Web-Server -IncludeManagementTools
+=> C:/inetpub/wwwroot/index.html
+=> <h1>Hi welcome</h1>
+=> publicip/ index.html
+
+/************************
+   Golden Image(Custome Image)  AMI
+*************************/
+=> Select Instance
+    =>Action 
+        =>Image
+            =>Create Image
+                => Name  & No Reboot
+
+EC2 => Images => AMI (images list here)
+
+Copy to other Region
+=> Select Image 
+    =>Action
+        => Modify Image Perission
+                |
+    ------------------------
+    |                       |
+Public                  Add Aws User Account Number
+
+/**********************
+    Create volume
+**************************/
+Linux 
+=> xvda
+xen, virtual, disk , a is for first volume
+
+=> Elastic Block Storage
+=> Create Volume
+    => AZ(create in same AZ as EC2)
+        => Create Volume
+
+/**********************
+    Attach volume
+**************************/
+=> Select Volume
+    => Actions
+        => Attach volume
+            => Select Instance
+                =>Done
+
+/**********************
+    Snapshot Of EBS
+**************************/
+=> Select Volume
+    => Action
+        => create Snapshot
+            => tag
+                => Create
+
+AMI in EBS
+Volume in S3
+
+/**********************
+    Vertiacl Scale
+**************************/
+=> Select Instance
+    => Stop Instance
+        => Action   
+            => Instance Setting
+                => Change instance Type
+                    => Select Type  
+                        =>Apply
+
+    
+/**********************
+    Placement Group
+*******************/
+Cluster is in single AZ on same physical server
+Spreed in single AZ but different physical Server
+=> Placement Group  
+    => Create Placement Group
+        => Name and Stargey
+
+=> Logical grouping of instance
+=> To improve through put and reduce latency
+=> 10 Gib 
+=> Heavy I/O should in once placement group
+
+/**********************
+    Change Key Pair
+*******************/
+=> Select Key pair tab
+    => Create new key Pair 
+
+    =>Select instance
+        => Action
+            => Instance Setting
+                => View & change user data
+
+
+/************************
+    Elastic PUBLIC IP 
+*************************/
+> Elastic IPs
+    > Allocate Elastic IP
+        >Allocate
+
+Security Group
+
+
+//
+Auto Scaling
+Load Balancing
+S3
+DataBase
+
+
+//VPC
+//Route53
+//Cloud Watch
+//Cloud Trail
+
+SNS 
+SQS
+SES
+OpsWork
+Well Arch
+
+--------
+Lamdba
+CodePipeLine
+Ecs 
+
+
+Public
+13.229.129.153
+3.0.19.185
+
+Private
+172.31.25.163
