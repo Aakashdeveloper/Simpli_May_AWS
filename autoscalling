@@ -58,3 +58,17 @@ after it add undeer load balancer
         check  machine got removed  or not
 
 
+> First configure AS Configuration
+> Lauch auto AS in the script
+> Make sure to install http 
+> create indexfile
+> start httpd server
+> install stress
+
+----------
+Put AS under loadBlacancer
+Connect with any machinee
+type "stress"
+and check is it adding new machine under loadBlacancer
+type "remove stree"
+and check is it removing  machine under loadBlacancer
