@@ -1,0 +1,122 @@
+99.99999999 11nine
+
+Database     vs  ObjectStorage
+Structred           Open & Unstructed
+Mysql
+Oracle
+Mongo
+
+
+=> Object Based Storage
+=> 100 bucket per account
+=> Object Size <= 5TB
+=> Global Service
+=> upto 5GB => Free
+
+/*********************
+    Create bucket
+*********************/
+=>S3
+    => Create bucket    
+        => provide Unique name(select region)
+            =>Create bucket
+
+/*********************
+    Upload in bucket
+*********************/
+=> Select the bucket
+    =>Add File
+        => upload
+
+/*********************
+   Make Bucket Public
+*********************/
+=> Select bucket
+    =>Permission
+        =>Edit
+            =>Uncheck public option
+
+/**********************
+    Versioning
+*********************/
+Unversioned    |      enabled      | suspend
+version is         Will maintain        If already some object have version they we will
+disabled            versions          remain unaffected but new will not get Versioning
+
+/**********************
+    Host Wesbite with S3
+*********************/
+=> Create a Bucket  
+    => create static html page
+        =>upload html page
+            => Properties
+                =>Static website hosting    
+                    => Provide main File
+                        =>Hit Url
+/**********************
+  Object-level logging
+*********************/
+Enable logging for each object with cloudtrail
+
+/**********************
+ Default encryption
+*********************/
+We can encrypt data in multiple format for security
+
+/**********************
+ Object lock
+*********************/
+Can be done only during the creation (WORM)
+    Write one read many
+
+/**********************
+Tags
+*********************/
+Can provide name to bucket by Tags
+
+/**********************
+ Transfer acceleration
+*********************/
+With enabling this I/O will be much faster
+but cost incresse
+
+/**********************
+Events
+*********************/
+We can trigger event on the operation selected
+It can any crud operation
+
+We can fire Lambda, SNS and SQS
+
+/**********************
+Requester pays
+*********************/
+
+It make requester charged for the file access
+insted for admin
+
+/**********************
+Storage Classes
+*********************/
+S3 standard =>> Immediate access / frequent access /important data
+S3 IA =>Imp data but less frequent access
+S3 RR => not critiacl data 
+Amazon Glacier  => Long time backups not critiacl data
+
+/**********************
+CRR(cross region replication)
+*********************/
+SourceBucket  => Versioning enabled   => diff region
+targetBucket  => Versioning enabled   => diff region
+
+=> Select source bucket
+    =>mangement
+        =>replication
+            =>Select source Bucket  
+                enable encryotion
+                    => Select target bucket
+                        =>Save
+
+
+
+                        
