@@ -1,0 +1,270 @@
+Understand VPC
+Design Arch. of VPC
+And Implement VPC
+*************************
+40% exam question from VPC
+Public IP = accesicable Outside and Auto generated
+Private IP => accesicable in VPC and auto generated
+Elastic Public Static IP=>  If IP is attached to Instance 
+                            its free, If you keepn it idel 
+                            its chargeable
+
+CIDR
+>Classless inter-domain routing
+IPv4
+-32Bit
+x.x.x.x/16 - x.x.x.x/28
+> 10.0.0.0/16 = 32-16 = 16 => 2^16 = 65536 ipaddress
+> 10.0.0.0/24 = 32-24 = 8 => 2^8 = 256
+> 10.0.0.0/17 = 32-17 = 15 => 2^15 = 32768
+> 10.0.0.0/28 = 32-28 = 4 => 2^4 = 16
+
+IPv6
+-128Bit
+
+
+VPC1               |      VPC2
+192.65.32.1        |     192.65.32.2
+10.0.0.1/20        |     10.0.0.1/20
+10.0.0.2/21        |     10.0.0.2/21
+
+/**************************
+Step To create VPC
+****************************/
+=>On AWS console
+    => Networking
+        =>VPC
+            => Your VPC
+                =>Create VPC
+                    => Provide VPC
+                    Name                        Cidr
+                    demovpc                     10.0.0.0/16
+                        =>Create
+
+*** It will create one default Route table
+
+/**************************
+    launch Subnet
+****************************/
+=> Subnet
+    =>Create Subnet
+        =>Enter details
+            Name                VPC        Availability Zone        IPv4 CIDR block
+            Public            Demovpc        Select az                10.0.1.0/24
+            Private           Demovpc        Select az               10.0.2.0/24
+
+*** IPv4 CIDR block => Should be unique
+*** All Subets default enter in default Route Table
+
+/**************************
+    Create Route table
+****************************/
+=> Route Table
+    =>Create RouteTable
+        => Provid
+            Name        VPC
+            PublicRT    Demovpc
+            PrivateRt   DemoVpc
+
+/**************************
+    Create Internet Gateway
+****************************/
+=> Internet Gateway
+    => Create Internet Gateway
+        => Provide
+            Name
+            demovpcIg
+
+** Default it's deteched
+
+/**************************
+    Set to attch Internet Gateway
+****************************/
+=> Select your IG 
+    =>Action
+        =>Attach IG
+            => Select VPC
+                
+/**************************
+  Add Subnet to route Table
+****************************/
+=> Select Route table
+    =>Action
+        => Edit Subnet Association
+            => Select Subnet
+                =>Save
+
+/**************************
+  Step to associate Ig
+****************************/
+=> Select PublicRT
+    => Action
+        =>EditRoutes
+            =>Provide
+            Destination                 Target
+            0.0.0.0/0                   Select Internet Gateway
+                                            => Select your IG
+
+/**********************************
+  Launch  Instance in Public Subnet
+************************************/
+=> Go To EC2
+    =>Launch Instance
+        =>Select Amazon Linux AMI 2018.03.0 
+            =>Next
+                =>Provide
+                    Network   Subnet   Auto-assign Public IP
+                    DemoVpc   Public        Enable
+                        =>Next  
+                            =>Storage(default)
+                                =>Tag 
+                                    Name   PublicLinux
+                                    =>Launch
+
+*** In Private Sunet 'Auto-assign Public IP' Should be disable
+
+PuttyGen
+=> .pem =>.ppk
+
+/**********************************
+  Step to connect with Instance
+************************************/
+=>Select EC2
+    => connect  
+        =>Window => connect to PuttyGen
+        =>mac/linux => ssh
+            =>enter command in terminal with right .pem file access
+
+*** make .pem file readable 
+    => chmod 400 <pemfile name>
+
+/**********************************
+  Step to connect Public with Private
+************************************/
+
+*** We need .pem file of Private
+    We will copy .pem file and create
+    one new file in public instance to access private instance
+        /###############
+        Step to create .pem in Public instance
+        ###############/
+        => Connect with public instance 
+            =>sudo su -
+                =>vi demoprivate.pem
+                    =>press esc 
+                        =>:wq!
+                            => Provide Permisson > chmod 400 demoprivate.pem
+                                =>ssh -i 'demoprivate.pem' ec2-user@10.0.2.67
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html?icmpid=docs_ec2_console
+
+
+/**************************
+ Step To create NAT Gateway
+****************************/
+=> Generate Elastic IP
+    => Elastic IP
+        =>amazon pool
+            => Allocate
+*** Its Paid if its not attached
+
+=>Select NAT Gateway
+    =>Provide
+        Subnet                              ElasticIP
+        Public subnet                       Generated EIP
+
+/**************************
+Attach to Route Table
+****************************/
+=> Go to RouteTable
+    =>Private Route table
+        =>Actions
+            =>Edit Routes
+                =>Provide
+                    Destination                     Target
+                    0.0.0.0/0                       Nat
+
+/**************************
+Testing of Nat
+****************************/
+=> Connect private machine from public subnet
+    =>Try ping google.com
+
+
+/**************************
+ Step To create NAT Instance
+****************************/
+=> EC2
+    =>Instance
+        =>Launch Instance
+            =>Select Community AMI
+                =>Search NAT
+                    =>Select First Nat
+                        =>Configuration
+                            Provide
+                            Demovpc      public subnet
+                                =>launch
+
+/**************************
+ Step To Associate EIP with NAT
+****************************/
+=> Select Elastic IP
+    =>Generate New EIP
+        =>Select EIP
+            =>Action
+                =>Associate Address
+                    =>Select Instance
+                        =>NAt Instance
+
+    =>Route Table
+        =>Priavte RouteTable
+            =>Select Route
+                =>Edit Route
+                    =>Provide
+                    0.0.0.0/0           Instance(NAT)
+
+    =>Go To EC2
+        =>Select NAT instance
+            =>securityGroup
+                =>launch-wizard
+                    =>Inbound
+                        =>Edit
+                            =>Add Rule 
+                                =>Provide
+                                Type                    CIDR
+                                ALL ICMP                10.0.2.0/24
+
+/**************************
+ SG & ACL
+****************************/
+SG
+>Virtual Firewall accross the instance
+>statefull in nature
+>only allow Rule
+>deny all mode
+
+NACl
+Virtual firewall accross the subnet
+>stateless
+>allow & denay also
+>everything is allowed
+
+
+/**************************
+ Step For SG
+****************************/
+=>securityGroup in EC2 consle
+    =>Create securityGroup
+        =>Provide
+            Name            description     VPC
+            mysg              aboutmysg         Dmeo
+
+
+/**************************
+ Step For ACL
+****************************/
+=> Newtwork ACL(vpc)
+    =>Provide Name
+        =>Select VPC
+            =>Add Rule
+*** Prioerity is on the basis of Rule number
+    lower the rule number higher the priority 
